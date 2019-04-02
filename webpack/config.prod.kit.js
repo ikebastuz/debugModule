@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const root = `${__dirname}/..`;
@@ -8,26 +7,22 @@ const root = `${__dirname}/..`;
 module.exports = {
   mode: 'production',
   devtool: 'source-map',
-  entry: {
-    app: path.resolve(root, 'src/kit/index.js'),
-    vendor: ['react', 'react-dom']
-  },
+  entry: ['./src/kit/index.js'],
   output: {
-    path: path.resolve(root, 'dist/kit'),
-    filename: 'www/[name].[hash].js',
-    publicPath: './'
+    path: path.resolve(root, 'dist'),
+    filename: 'outernets-app-debugger.js',
+    library: 'outernets-app-debugger',
+    libraryTarget: 'umd'
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|bower_components)/,
         use: [
           {
             loader: 'babel-loader',
             options: {
-              cacheDirectory: true,
-              plugins: ['react-hot-loader/babel'],
               presets: [
                 [
                   'env',
@@ -83,13 +78,8 @@ module.exports = {
   },
   plugins: [
     new webpack.EnvironmentPlugin(['NODE_ENV']),
-    new HtmlWebpackPlugin({
-      template: path.resolve(root, 'src/kit/index.html'),
-      title: 'Kit App'
-    }),
     new ExtractTextPlugin({
-      filename: 'www/styles.[hash].css',
-      allChunks: true
+      filename: 'outernets-app-debugger.css'
     })
   ],
   resolve: {
@@ -99,17 +89,5 @@ module.exports = {
       models: path.resolve(root, 'src/kit/models')
     },
     extensions: ['.js', '.jsx']
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          chunks: 'initial',
-          test: 'vendor',
-          name: 'vendor',
-          enforce: true
-        }
-      }
-    }
   }
 };

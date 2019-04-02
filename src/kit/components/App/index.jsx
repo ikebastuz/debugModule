@@ -11,6 +11,8 @@ export default connect(mapStateToProps)(
   class extends Component {
     componentDidMount() {
       this.props.dispatch.vision.subscribe();
+      console.log('APP props');
+      console.log(this.props);
     }
 
     render() {

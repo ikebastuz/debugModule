@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { container, node, bone, boneLine, tag, eyeDist } from './styles.css';
+import {
+  container,
+  skeletonNode,
+  skeletonBone,
+  boneLine,
+  tag,
+  eyeDist
+} from './styles.css';
 import { bonesMap, tagCoords } from './skeleton';
 
 import { TrackerApi as Tracker } from 'outernets-apps-core';
@@ -25,6 +32,8 @@ export default connect(mapStateToProps)(
     }
 
     componentWillReceiveProps(currentProps) {
+      console.log('Debugger props:');
+      console.log(currentProps);
       let nodes = {};
       let bones = {};
       let tags = [];
@@ -42,13 +51,19 @@ export default connect(mapStateToProps)(
     }
 
     componentDidMount() {
+      console.log('Debugger mounted');
+      console.log(this.props);
       const tracker = new Tracker();
       tracker.addPalms = true;
       this.setState({ tracker });
     }
 
-    absPosX = (x) => `${100 - x * 100}%`;
-    absPosY = (y) => `${y * 100}%`;
+    absPosX(x) {
+      return `${100 - x * 100}%`;
+    }
+    absPosY(y) {
+      return `${y * 100}%`;
+    }
 
     drawNodes() {
       return Object.keys(this.state.nodes).map((personId, ind) => {
@@ -67,7 +82,7 @@ export default connect(mapStateToProps)(
               return (
                 <div
                   style={style}
-                  className={node}
+                  className={skeletonNode}
                   key={`${personId}_${partId}`}
                 >
                   {partId}
@@ -84,7 +99,7 @@ export default connect(mapStateToProps)(
           ? this.state.bones[personId].map((line, key) => (
               <svg
                 key={`bone_${ind}_${key}`}
-                className={bone}
+                className={skeletonBone}
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <line
