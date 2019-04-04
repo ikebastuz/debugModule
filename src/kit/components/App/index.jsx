@@ -9,14 +9,33 @@ const mapStateToProps = (props) => ({
 
 export default connect(mapStateToProps)(
   class extends Component {
+    constructor() {
+      super();
+      this.state = {
+        show: false
+      };
+      this.handleKBClick = this.handleKBClick.bind(this);
+    }
+
+    handleKBClick(e) {
+      if (e.ctrlKey && e.altKey && e.key == 'z' && !this.state.show) {
+        this.setState({ show: true });
+      }
+
+      if (e.ctrlKey && e.altKey && e.key == 'x' && this.state.show) {
+        this.setState({ show: false });
+      }
+    }
+
     componentDidMount() {
+      document.addEventListener('keydown', this.handleKBClick);
+      document.addEventListener('keyup', this.handleKBClick);
       this.props.dispatch.vision.subscribe();
-      console.log('APP props');
-      console.log(this.props);
+      this.props.dispatch.cvEvents.subscribe();
     }
 
     render() {
-      return <App {...this.props} />;
+      return this.state.show ? <App {...this.props} /> : null;
     }
   }
 );

@@ -1,11 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import debuggerStore from './store';
-
+import store from './store';
 import App from './components/App';
 
-function Debugger() {
-  return <App />;
+function AppDebugger() {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 }
 
-export default Debugger;
+export default AppDebugger;

@@ -7,14 +7,21 @@ import {
   skeletonBone,
   boneLine,
   tag,
-  eyeDist
+  eyeDistStyleClose,
+  eyeDistStyleFar,
+  cvFaceBox,
+  cvFaceData
 } from './styles.css';
 import { bonesMap, tagCoords } from './skeleton';
 
 import { TrackerApi as Tracker } from 'outernets-apps-core';
 
-const mapStateToProps = ({ vision }) => ({
-  vision
+import { cvFeed } from '../../utils/cvMock';
+
+const mapStateToProps = ({ vision, view, cvEvents }) => ({
+  vision,
+  view,
+  cvEvents
 });
 
 export default connect(mapStateToProps)(
@@ -26,14 +33,24 @@ export default connect(mapStateToProps)(
         nodes: {},
         bones: {},
         tags: [],
-        colors: ['green', 'red', 'blue'],
-        tracker: false
+
+        colors: ['#007bff', '#6c757d', '#ffc107', '#17a2b8'],
+        tracker: false,
+        updated: false
       };
+
+      this.cvData = {};
+      this.cvTimeout = null;
+      this.layout = null;
     }
 
     componentWillReceiveProps(currentProps) {
-      console.log('Debugger props:');
-      console.log(currentProps);
+      // Set layout
+      if (!this.state.updated && currentProps.view.layout) {
+        this.setState({ updated: true });
+      }
+
+      // Calc skeleton parts
       let nodes = {};
       let bones = {};
       let tags = [];
@@ -47,12 +64,16 @@ export default connect(mapStateToProps)(
         tags = tagCoords(nodes);
       }
 
+      clearTimeout(this.cvTimeout);
+      this.cvData = currentProps.cvEvents;
+      this.cvTimeout = setTimeout(() => {
+        this.cvData = {};
+      }, 3000);
+
       this.setState({ nodes, bones, tags });
     }
 
     componentDidMount() {
-      console.log('Debugger mounted');
-      console.log(this.props);
       const tracker = new Tracker();
       tracker.addPalms = true;
       this.setState({ tracker });
@@ -124,26 +145,75 @@ export default connect(mapStateToProps)(
             left: this.absPosX(t.x),
             backgroundColor: this.state.colors[ind % this.state.colors.length]
           };
+          const eyeDist = Math.floor(
+            t.eyeDist *
+              (this.props.view.layout
+                ? this.props.view.layout.width
+                : window.innerWidth)
+          );
           return (
-            <React.Fragment>
-              <p className={tag} key={ind} style={style}>
-                {t.personInd}
-                <span className={eyeDist}>
-                  {Math.floor(t.eyeDist * window.innerWidth)}
-                </span>
-              </p>
-            </React.Fragment>
+            <p className={tag} key={ind} style={style}>
+              {t.personInd}
+              <span
+                className={eyeDist >= 120 ? eyeDistStyleClose : eyeDistStyleFar}
+              >
+                {eyeDist}
+              </span>
+            </p>
           );
         }
       });
     }
 
+    drawCVData() {
+      return this.cvData.data &&
+        this.cvData.data.currentFaces &&
+        this.cvData.data.currentFaces.length
+        ? this.cvData.data.currentFaces.map((face, ind) => {
+            const style = {
+              top: this.absPosY(1 - face.lastPosition[0] - face.height / 2),
+              left: this.absPosX(face.lastPosition[1] + face.width / 2),
+              width: `${face.width * 100}%`,
+              height: `${face.height * 100}%`,
+              borderColor: face.gender == 'male' ? 'blue' : 'red',
+              color: face.gender == 'male' ? 'blue' : 'red'
+            };
+
+            return (
+              <div className={cvFaceBox} key={`cvface_${ind}`} style={style}>
+                <p className={cvFaceData}>
+                  {face.gender} ({face.age})
+                </p>
+              </div>
+            );
+          })
+        : null;
+    }
+
+    parseStyle = ({ width, height, top, left }) => {
+      return {
+        width: `${width}px`,
+        height: `${height}px`,
+        top: `${top}px`,
+        left: `${left}px`
+      };
+    };
+
     render() {
+      let layout = {};
+
+      if (this.state.updated && !this.layout) {
+        layout = this.layout = this.parseStyle(this.props.view.layout);
+      } else {
+        layout = this.layout;
+      }
+
       return (
-        <div className={container}>
+        <div className={container} style={layout}>
           {this.drawNodes()}
           {this.drawBones()}
           {this.drawTags()}
+          {this.drawCVData()}
         </div>
       );
     }

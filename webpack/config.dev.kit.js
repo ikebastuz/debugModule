@@ -9,10 +9,7 @@ module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: {
     app: path.resolve(root, 'src/kit/index.js'),
-    vendor: [
-      'react',
-      'react-dom'
-    ],
+    vendor: ['react', 'react-dom']
   },
   output: {
     path: path.resolve(root, 'dist/kit'),
@@ -29,7 +26,7 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              plugins: ['react-hot-loader/babel'],
+              plugins: [],
               presets: [
                 [
                   'env',
@@ -70,7 +67,6 @@ module.exports = {
   },
   plugins: [
     new webpack.EnvironmentPlugin(['NODE_ENV']),
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(root, 'src/kit/index.html'),
       title: 'Kit App'
@@ -78,9 +74,9 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      'components': path.resolve(root, 'src/kit/components'),
-      'assets': path.resolve(root, 'src/kit/assets'),
-      'models': path.resolve(root, 'src/kit/models')
+      components: path.resolve(root, 'src/kit/components'),
+      assets: path.resolve(root, 'src/kit/assets'),
+      models: path.resolve(root, 'src/kit/models')
     },
     extensions: ['.js', '.jsx']
   },
@@ -98,9 +94,8 @@ module.exports = {
   },
   devServer: {
     host: 'localhost',
-    port: 3001,
+    port: 3002,
     historyApiFallback: true,
-    open: true,
-    hot: true
+    open: true
   }
 };

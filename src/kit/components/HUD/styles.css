@@ -1,0 +1,26 @@
+.hudContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #17a2b8;
+  margin: 0;
+  padding: 0.5em;
+  color: #fff;
+}
+
+.param {
+  margin: 0 0 5px 0;
+  display: flex;
+  text-transform: initial;
+}
+
+.paramKey {
+  display: inline-block;
+  width: 40%;
+  margin-right: 10px;
+}
+
+.paramValue {
+  display: inline-block;
+  margin-left: 10px;
+}

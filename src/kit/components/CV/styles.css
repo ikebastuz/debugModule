@@ -39,10 +39,17 @@
   text-align: center;
 }
 
-.eyeDist {
+.eyeDistStyleClose {
   margin: 0 0 0 10px;
-  background-color: black;
-  color: white;
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px;
+}
+
+.eyeDistStyleFar {
+  margin: 0 0 0 10px;
+  background-color: #dc3545;
+  color: #fff;
   padding: 10px;
 }
 
@@ -59,4 +66,15 @@
   font-size: 16px;
   z-index: 2;
   transform: translateX(-50%) translateY(-50%);
+}
+
+.cvFaceBox {
+  border: 5px solid #000;
+  position: absolute;
+}
+
+.cvFaceData {
+  font-size: 40% !important;
+  font-weight: bold;
+  margin: 105% 0 0 0;
 }

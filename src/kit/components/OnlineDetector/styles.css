@@ -1,0 +1,16 @@
+.detector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%;
+}
+
+.online {
+  background: #28a745;
+}
+
+.offline {
+  background: #dc3545;
+}

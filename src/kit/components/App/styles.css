@@ -11,5 +11,5 @@
   overflow-y: hidden;
   overflow-x: hidden;
   font-family: sans-serif;
-  background-color: #CCC;
+  z-index: 2147483647;
 }
