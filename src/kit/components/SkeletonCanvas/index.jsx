@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { canvas } from './styles.css';
-import { MediaApi, TrackerApi as Tracker } from 'outernets-apps-core';
-
-//import Tracker from '../../models/tracker';
+import Tracker from '../../models/tracker';
+import { captureWebcam } from '../../models/media';
 
 const mapStateToProps = ({ vision }) => ({
   vision
@@ -102,7 +101,7 @@ export default connect(
 
       this.setState({ tracker });
 
-      MediaApi.captureWebcam().then((objectUrl) => {
+      captureWebcam().then((objectUrl) => {
         this.webCamLoaded(objectUrl);
       });
     }

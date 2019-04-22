@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KitApi } from 'outernets-apps-core';
+import { getSettings } from '../../models/kit';
 import { hudContainer, param, paramKey, paramValue } from './styles.css';
 
 export default class extends Component {
@@ -12,7 +12,7 @@ export default class extends Component {
   }
 
   componentDidMount() {
-    const appId = KitApi.getSettings() ? KitApi.getSettings().appId : 'Unknown';
+    const appId = getSettings() ? getSettings().appId : 'Unknown';
     this.setState({ data: { ...this.state.data, appId } });
   }
 

@@ -14,7 +14,7 @@ import {
 } from './styles.css';
 import { bonesMap, tagCoords } from './skeleton';
 
-import { TrackerApi as Tracker } from 'outernets-apps-core';
+import Tracker from '../../models/tracker';
 
 import { cvFeed } from '../../utils/cvMock';
 

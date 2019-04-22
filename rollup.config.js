@@ -10,9 +10,9 @@ const config = {
     'react',
     'prop-types',
     'react-redux',
-    'outernets-apps-core',
     'react-detect-offline',
-    'classnames'
+    'classnames',
+    'uuidv1'
   ],
 
   output: {

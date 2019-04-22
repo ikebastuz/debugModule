@@ -1,6 +1,6 @@
 import { dispatch } from '@rematch/core';
 import { throttle } from '../utils';
-import { KitApi } from 'outernets-apps-core';
+import { subscribeCVEvent } from './kit';
 
 export const cvEvents = {
   state: {
@@ -14,7 +14,7 @@ export const cvEvents = {
   effects: {
     subscribe: () => {
       try {
-        KitApi.subscribeCVEvent(
+        subscribeCVEvent(
           throttle((data) => {
             dispatch.cvEvents.setState(data);
           }, 200)
