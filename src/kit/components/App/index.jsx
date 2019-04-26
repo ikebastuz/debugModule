@@ -28,8 +28,8 @@ export default connect(mapStateToProps)(
     }
 
     componentDidMount() {
-      document.addEventListener('keydown', this.handleKBClick);
-      document.addEventListener('keyup', this.handleKBClick);
+      window.addEventListener('keydown', this.handleKBClick);
+      window.addEventListener('keyup', this.handleKBClick);
       this.props.dispatch.vision.subscribe();
       this.props.dispatch.cvEvents.subscribe();
     }

@@ -1,6 +1,6 @@
 {
   "name": "outernets-app-debugger",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "outernets-app-debugger",
   "main": "dist/outernets-app-debugger.js",
   "author": "ikebastuz",
