@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import App from './component';
@@ -8,7 +8,7 @@ const mapStateToProps = (props) => ({
 });
 
 export default connect(mapStateToProps)(
-  class extends Component {
+  class extends React.Component {
     constructor() {
       super();
       this.state = {

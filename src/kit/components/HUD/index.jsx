@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { getSettings } from '../../models/kit';
 import { hudContainer, param, paramKey, paramValue } from './styles.css';
 
-export default class extends Component {
+export default class extends React.Component {
   constructor() {
     super();
 
@@ -14,6 +14,16 @@ export default class extends Component {
   componentDidMount() {
     const appId = getSettings() ? getSettings().appId : 'Unknown';
     this.setState({ data: { ...this.state.data, appId } });
+    this.loadPkgConfig();
+  }
+
+  loadPkgConfig(){
+    fetch('./package.json')
+      .then((res) => res.json())
+      .then(pkg => {
+        this.setState({ data: { ...this.state.data, version: pkg.version ? pkg.version : 'Unknown' } });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {

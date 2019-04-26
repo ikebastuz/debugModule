@@ -23,17 +23,17 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
+              plugins: ['@babel/plugin-proposal-class-properties'],
               presets: [
                 [
-                  'env',
+                  '@babel/preset-env',
                   {
                     targets: {
                       browsers: 'last 2 Chrome versions'
                     }
                   }
                 ],
-                'react',
-                'stage-1'
+                '@babel/preset-react'
               ]
             }
           }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -25,7 +25,7 @@ const mapStateToProps = ({ vision, view, cvEvents }) => ({
 });
 
 export default connect(mapStateToProps)(
-  class extends Component {
+  class extends React.Component {
     constructor() {
       super();
 
